@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>ВелоМир — велосипеды, аксессуары, запчасти</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #0f172a;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-bottom: 10px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #f97316;
+            border-radius: 2px;
+        }
+
+        header {
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo i {
+            color: #f97316;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #334155;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active-page {
+            color: #f97316;
+        }
+
+        .cart-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #0f172a;
+            color: white !important;
+            padding: 10px 16px;
+            border-radius: 30px;
+        }
+
+        .cart-link:hover {
+            background: #f97316;
+        }
+
+        #cart-count {
+            background: #f97316;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            margin-left: 4px;
+        }
+
+        .cart-link:hover #cart-count {
+            background: #0f172a;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #0f172a;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 20px;
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; font-weight: 700; }
+        .hero span { color: #f97316; }
+        .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; }
+
+        .btn {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+            margin: 5px;
+        }
+        .btn:hover { background: #ea580c; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid white; box-shadow: none; }
+        .btn-outline:hover { background: white; color: #0f172a; }
+
+        .banners {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0 40px;
+        }
+        .banner-card {
+            border-radius: 28px; padding: 30px 25px; color: white;
+            display: flex; flex-direction: column; justify-content: space-between;
+            background-size: cover; background-position: center;
+            position: relative; overflow: hidden; min-height: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: transform 0.3s;
+        }
+        .banner-card:hover { transform: translateY(-5px); }
+        .banner-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%);
+        }
+        .banner-card > * { position: relative; z-index: 1; }
+        .banner-card h3 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+        .banner-card p { font-size: 1.1rem; margin-bottom: 20px; opacity: 0.95; }
+        .banner-1 { background-image: url('https://images.unsplash.com/photo-1571068316344-75bc76f65190?q=80&w=2070&auto=format&fit=crop'); }
+        .banner-2 { background-image: url('https://images.unsplash.com/photo-1559348349-86f1f65817fe?q=80&w=2070&auto=format&fit=crop'); }
+
+        .tabs-container { margin-top: 50px; }
+        .tabs-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .tab-btn {
+            background: #e2e8f0; border: none; padding: 14px 28px; border-radius: 40px;
+            font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 1rem; color: #334155;
+        }
+        .tab-btn.active { background: #f97316; color: white; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .product-card {
+            background: white; border-radius: 20px; padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: transform 0.3s;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            border: 1px solid #f1f5f9;
+        }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 35px rgba(0,0,0,0.08); }
+        .product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 20px; }
+        .product-card h3 { font-size: 1.3rem; margin-bottom: 8px; color: #0f172a; }
+        .category { color: #64748b; font-size: 0.9rem; margin-bottom: 10px; }
+        .price { font-weight: 700; font-size: 1.5rem; color: #f97316; margin: 10px 0 16px; }
+        .add-to-cart, .detail-btn {
+            background: #0f172a; border: none; color: white; padding: 10px 24px; border-radius: 30px;
+            font-weight: 600; cursor: pointer; width: 100%; display: flex;
+            align-items: center; justify-content: center; gap: 6px; margin-top: 8px;
+        }
+        .detail-btn { background: white; color: #0f172a; border: 2px solid #0f172a; }
+        .detail-btn:hover { background: #0f172a; color: white; }
+        .add-to-cart:hover { background: #f97316; }
+
+        .product-detail {
+            display: flex; flex-wrap: wrap; gap: 40px; background: white; border-radius: 30px;
+            padding: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .product-gallery { flex: 1 1 400px; }
+        .main-image { width: 100%; height: 350px; object-fit: contain; border-radius: 20px; background: #f8fafc; }
+        .thumbnail-list { display: flex; gap: 15px; margin-top: 20px; justify-content: center; }
+        .thumbnail {
+            width: 70px; height: 70px; object-fit: contain; border: 2px solid #e2e8f0;
+            border-radius: 12px; cursor: pointer;
+        }
+        .thumbnail:hover, .thumbnail.active { border-color: #f97316; }
+        .product-info { flex: 1 1 300px; }
+        .product-info h3 { font-size: 2rem; margin-bottom: 10px; }
+        .product-info .category { font-size: 1.1rem; margin-bottom: 15px; }
+        .product-info .price { font-size: 2rem; margin: 15px 0; }
+        .rating { color: #f59e0b; margin-bottom: 20px; }
+        .description { margin-bottom: 25px; color: #334155; }
+        .specs-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .specs-table td { padding: 10px 5px; border-bottom: 1px solid #e2e8f0; }
+        .specs-table td:first-child { font-weight: 600; color: #64748b; width: 40%; }
+        .back-btn { background: #e2e8f0; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; margin-bottom: 20px; }
+
+        .cart-page-container {
+            background: white; border-radius: 30px; padding: 30px; max-width: 800px; margin: 0 auto;
+        }
+        .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .cart-table th { text-align: left; padding: 12px 8px; border-bottom: 2px solid #e2e8f0; color: #64748b; }
+        .cart-table td { padding: 16px 8px; border-bottom: 1px solid #e2e8f0; }
+        .quantity-control { display: flex; align-items: center; gap: 8px; }
+        .quantity-btn {
+            background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%;
+            font-weight: bold; cursor: pointer;
+        }
+        .quantity-btn:hover { background: #f97316; color: white; }
+        .remove-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; }
+        .cart-summary { text-align: right; font-size: 1.4rem; font-weight: 700; margin-top: 20px; }
+        .checkout-btn {
+            background: #f97316; color: white; border: none; padding: 16px 40px; border-radius: 40px;
+            font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 20px; width: 100%;
+        }
+
+        .features { background: #ffffff; border-radius: 40px 40px 0 0; margin-top: 20px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: center; }
+        .feature i { font-size: 2.5rem; color: #f97316; margin-bottom: 16px; }
+        .contact-form { background: #f1f5f9; border-radius: 40px; padding: 40px; max-width: 700px; margin: 0 auto; }
+        .form-group { margin-bottom: 20px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 14px 18px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 1rem;
+        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        footer { background: #0f172a; color: #cbd5e1; text-align: center; padding: 30px 0; margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; flex-direction: column; width: 100%; background: white; padding: 20px; gap: 15px; margin-top: 15px; border-radius: 20px; }
+            .nav-links.active { display: flex; }
+            .product-detail { flex-direction: column; }
+            .cart-table thead { display: none; }
+            .cart-table tr { display: block; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
+            .cart-table td { display: flex; justify-content: space-between; padding: 10px 0; border: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo" data-page="home"><i class="fas fa-bicycle"></i> ВелоМир</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+            <ul class="nav-links" id="navLinks">
+                <li><a class="nav-link active-page" data-page="home">Главная</a></li>
+                <li><a class="nav-link" data-page="bikes">Велосипеды</a></li>
+                <li><a class="nav-link" data-page="accessories">Аксессуары</a></li>
+                <li><a class="nav-link" data-page="parts">Запчасти</a></li>
+                <li><a class="nav-link" data-page="about">О нас</a></li>
+                <li><a class="nav-link" data-page="contact">Контакты</a></li>
+                <li><a class="nav-link cart-link" data-page="cart"><i class="fas fa-shopping-cart"></i> Корзина <span id="cart-count">0</span></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Главная -->
+        <section id="home-section" class="page-section active">
+            <div class="hero">
+                <div class="container">
+                    <h1>Твой идеальный <span>велосипед</span> ждёт</h1>
+                    <p>Городские, горные, шоссейные и детские модели. А также аксессуары и запчасти с быстрой доставкой.</p>
+                    <button class="btn" data-page="bikes"><i class="fas fa-bicycle"></i> Смотреть велосипеды</button>
+                    <button class="btn btn-outline" data-page="accessories">Аксессуары</button>
+                </div>
+            </div>
+            <div class="container">
+                <div class="banners">
+                    <div class="banner-card banner-1"><h3>Скидка 20%</h3><p>На все горные велосипеды до конца месяца</p><button class="btn" data-page="bikes">Выбрать модель</button></div>
+                    <div class="banner-card banner-2"><h3>Бесплатная доставка</h3><p>При заказе аксессуаров от 5 000 ₽</p><button class="btn" data-page="accessories">В каталог</button></div>
+                </div>
+                <div class="tabs-container">
+                    <h2 style="margin-bottom: 10px;">Популярные товары</h2>
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" data-tab="tab-bikes">Велосипеды</button>
+                        <button class="tab-btn" data-tab="tab-accessories">Аксессуары</button>
+                        <button class="tab-btn" data-tab="tab-parts">Запчасти</button>
+                    </div>
+                    <div class="tab-pane active" id="tab-bikes"><div class="products-grid" id="homeBikesContainer"></div></div>
+                    <div class="tab-pane" id="tab-accessories"><div class="products-grid" id="homeAccessoriesContainer"></div></div>
+                    <div class="tab-pane" id="tab-parts"><div class="products-grid" id="homePartsContainer"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Каталоги -->
+        <section id="bikes-section" class="page-section"><div class="container"><h2>Велосипеды</h2><div class="products-grid" id="bikesContainer"></div></div></section>
+        <section id="accessories-section" class="page-section"><div class="container"><h2>Аксессуары</h2><div class="products-grid" id="accessoriesContainer"></div></div></section>
+        <section id="parts-section" class="page-section"><div class="container"><h2>Запчасти</h2><div class="products-grid" id="partsContainer"></div></div></section>
+
+        <!-- Детальная товара -->
+        <section id="product-detail-section" class="page-section">
+            <div class="container" id="productDetailContainer"></div>
+        </section>
+
+        <!-- Корзина -->
+        <section id="cart-section" class="page-section">
+            <div class="container"><h2>Корзина</h2><div class="cart-page-container" id="cartPageContent"></div></div>
+        </section>
+
+        <!-- О нас -->
+        <section id="about-section" class="page-section">
+            <div class="container"><h2>О компании ВелоМир</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
+                    <div style="flex:1 1 400px;"><h3>Мы любим велосипеды</h3><p>С 2015 года помогаем найти идеальный велосипед. Опытные механики, гарантия 2 года.</p></div>
+                    <div style="flex:1 1 300px;"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" style="width:100%; border-radius:30px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact-section" class="page-section">
+            <div class="container"><h2>Связаться с нами</h2>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group"><input type="text" placeholder="Ваше имя" required></div>
+                        <div class="form-group"><input type="email" placeholder="Email" required></div>
+                        <div class="form-group"><textarea rows="4" placeholder="Ваш вопрос" required></textarea></div>
+                        <button type="submit" class="btn" style="width:100%;">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container"><h2>Почему выбирают нас</h2>
+                <div class="features-grid">
+                    <div class="feature"><i class="fas fa-truck-fast"></i><h4>Быстрая доставка</h4><p>1-3 дня, бесплатно от 30 000 ₽</p></div>
+                    <div class="feature"><i class="fas fa-tools"></i><h4>Сервис</h4><p>Предпродажная подготовка</p></div>
+                    <div class="feature"><i class="fas fa-shield-alt"></i><h4>Гарантия 2 года</h4><p>На раму и компоненты</p></div>
+                    <div class="feature"><i class="fas fa-rotate-left"></i><h4>Возврат</h4><p>14 дней без проблем</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">© 2025 ВелоМир. Все права защищены. г. Москва, ул. Велосипедная, 12</div>
+    </footer>
+
+    <script>
+        (function() {
+            const bikes = [
+                { id: 'b1', name: "Stinger Graphite", category: "Горный", price: 45990, image: "https://img.icons8.com/color/96/000000/mountain-bike.png" },
+                { id: 'b2', name: "Urban Cruiser 300", category: "Городской", price: 32990, image: "https://img.icons8.com/color/96/000000/city-bike.png" },
+                { id: 'b3', name: "Speedster Pro", category: "Шоссейный", price: 67990, image: "https://img.icons8.com/color/96/000000/road-bike.png" },
+                { id: 'b4', name: "Kiddy Rocket 20", category: "Детский", price: 18990, image: "https://img.icons8.com/color/96/000000/kids-bike.png" },
+                { id: 'b5', name: "E-Motion Volt", category: "Электро", price: 89990, image: "https://img.icons8.com/color/96/000000/electric-bike.png" },
+                { id: 'b6', name: "Trail Master 29", category: "Горный", price: 52990, image: "https://img.icons8.com/color/96/000000/mountain-bike.png" }
+            ];
+            const accessories = [
+                { id: 'a1', name: "Шлем Defender Pro", category: "Защита", price: 4990, image: "https://img.icons8.com/color/96/000000/bike-helmet.png" },
+                { id: 'a2', name: "Велофара UltraBright", category: "Освещение", price: 2790, image: "https://img.icons8.com/color/96/000000/bike-light.png" },
+                { id: 'a3', name: "Замок-трос SteelSafe", category: "Безопасность", price: 1590, image: "https://img.icons8.com/color/96/000000/padlock.png" },
+                { id: 'a4', name: "Бутылка Hydra 750ml", category: "Питье", price: 890, image: "https://img.icons8.com/color/96/000000/water-bottle.png" },
+                { id: 'a5', name: "Велокомпьютер Sigma 1200", category: "Электроника", price: 3200, image: "https://img.icons8.com/color/96/000000/speedometer.png" },
+                { id: 'a6', name: "Крылья CityProtect", category: "Защита", price: 1750, image: "https://img.icons8.com/color/96/000000/fender.png" }
+            ];
+            const parts = [
+                { id: 'p1', name: "Цепь Shimano HG54", category: "Трансмиссия", price: 1890, image: "https://img.icons8.com/color/96/000000/gears.png" },
+                { id: 'p2', name: "Покрышка Schwalbe 29x2.2", category: "Колёса", price: 3290, image: "https://img.icons8.com/color/96/000000/tire.png" },
+                { id: 'p3', name: "Кассета SRAM 12ск", category: "Трансмиссия", price: 5490, image: "https://img.icons8.com/color/96/000000/cassette.png" },
+                { id: 'p4', name: "Тормозные колодки Avid", category: "Тормоза", price: 1350, image: "https://img.icons8.com/color/96/000000/brake-pads.png" },
+                { id: 'p5', name: "Рулевая колонка FSA", category: "Рулевое", price: 2900, image: "https://img.icons8.com/color/96/000000/headset.png" },
+                { id: 'p6', name: "Седло Ergon SMC", category: "Седло", price: 4200, image: "https://img.icons8.com/color/96/000000/bike-saddle.png" }
+            ];
+
+            let cart = [];
+
+            const pageSections = {
+                home: document.getElementById('home-section'),
+                bikes: document.getElementById('bikes-section'),
+                accessories: document.getElementById('accessories-section'),
+                parts: document.getElementById('parts-section'),
+                'product-detail': document.getElementById('product-detail-section'),
+                cart: document.getElementById('cart-section'),
+                about: document.getElementById('about-section'),
+                contact: document.getElementById('contact-section')
+            };
+
+            function findProductById(id) {
+                return [...bikes, ...accessories, ...parts].find(p => p.id === id);
+            }
+
+            function addToCart(productId) {
+                const product = findProductById(productId);
+                if (!product) return;
+                const existing = cart.find(item => item.id === productId);
+                if (existing) existing.quantity += 1;
+                else cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+                updateCartUI();
+                alert(`✅ ${product.name} добавлен в корзину!`);
+            }
+
+            function removeFromCart(productId) {
+                cart = cart.filter(item => item.id !== productId);
+                updateCartUI();
+            }
+
+            function changeQuantity(productId, delta) {
+                const item = cart.find(i => i.id === productId);
+                if (item) {
+                    item.quantity += delta;
+                    if (item.quantity <= 0) removeFromCart(productId);
+                    else updateCartUI();
+                }
+            }
+
+            function updateCartUI() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').textContent = totalItems;
+                if (pageSections.cart.classList.contains('active')) renderCartPage();
+            }
+
+            function renderCartPage() {
+                const container = document.getElementById('cartPageContent');
+                if (!container) return;
+                if (cart.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#64748b; padding:40px;">Корзина пуста</p>';
+                    return;
+                }
+                let html = `<table class="cart-table"><thead><tr><th>Товар</th><th>Цена</th><th>Кол-во</th><th>Сумма</th><th></th></tr></thead><tbody>`;
+                cart.forEach(item => {
+                    html += `<tr>
+                        <td>${item.name}</td>
+                        <td>${item.price.toLocaleString()} ₽</td>
+                        <td><div class="quantity-control"><button class="quantity-btn" data-id="${item.id}" data-delta="-1">−</button><span>${item.quantity}</span><button class="quantity-btn" data-id="${item.id}" data-delta="1">+</button></div></td>
+                        <td>${(item.price * item.quantity).toLocaleString()} ₽</td>
+                        <td><button class="remove-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button></td>
+                    </tr>`;
+                });
+                const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                html += `</tbody></table><div class="cart-summary">Итого: ${total.toLocaleString()} ₽</div><button class="checkout-btn">Оформить заказ</button>`;
+                container.innerHTML = html;
+
+                container.querySelectorAll('.quantity-btn').forEach(btn => {
+                    btn.addEventListener('click', () => changeQuantity(btn.dataset.id, parseInt(btn.dataset.delta)));
+                });
+                container.querySelectorAll('.remove-btn').forEach(btn => {
+                    btn.addEventListener('click', () => removeFromCart(btn.dataset.id));
+                });
+                container.querySelector('.checkout-btn')?.addEventListener('click', () => {
+                    alert('Спасибо за заказ!');
+                    cart = [];
+                    updateCartUI();
+                    showPage('home');
+                });
+            }
+
+            function renderProductCards(container, products) {
+                if (!container) return;
+                container.innerHTML = products.map(p => `
+                    <div class="product-card">
+                        <img src="${p.image}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <div class="category">${p.category}</div>
+                        <div class="price">${p.price.toLocaleString()} ₽</div>
+                        <button class="detail-btn" data-id="${p.id}"><i class="fas fa-info-circle"></i> Подробнее</button>
+                        <button class="add-to-cart" data-id="${p.id}"><i class="fas fa-cart-plus"></i> В корзину</button>
+                    </div>
+                `).join('');
+                container.querySelectorAll('.detail-btn').forEach(btn => btn.addEventListener('click', () => showProductDetail(btn.dataset.id)));
+                container.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', () => addToCart(btn.dataset.id)));
+            }
+
+            function showProductDetail(productId) {
+                const product = findProductById(productId);
+                if (!product) return;
+                const container = document.getElementById('productDetailContainer');
+                const images = [product.image, product.image.replace('/96/', '/192/'), product.image, product.image];
+                const specs = { "Бренд": "VeloWorld", "Модель": product.name, "Тип": product.category, "Вес": "12.5 кг", "Материал": "Алюминий" };
+                let stars = '';
+                for (let i = 0; i < 5; i++) stars += '<i class="fas fa-star"></i>';
+
+                container.innerHTML = `
+                    <button class="back-btn" id="backFromDetail"><i class="fas fa-arrow-left"></i> Назад</button>
+                    <div class="product-detail">
+                        <div class="product-gallery">
+                            <img id="mainProductImage" src="${images[0]}" class="main-image" alt="${product.name}">
+                            <div class="thumbnail-list">
+                                ${images.map((img, idx) => `<img src="${img}" class="thumbnail ${idx===0?'active':''}" data-src="${img}">`).join('')}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <div class="category">${product.category}</div>
+                            <div class="rating">${stars} 4.8 (123 отзыва)</div>
+                            <div class="price">${product.price.toLocaleString()} ₽</div>
+                            <p class="description">Отличный выбор для активной езды. Надёжные комплектующие и стильный дизайн.</p>
+                            <table class="specs-table">${Object.entries(specs).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>
+                            <button class="add-to-cart" data-id="${product.id}"><i class="fas fa-cart-plus"></i> В корзину</button>
+                        </div>
+                    </div>
+                `;
+                container.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.addEventListener('click', function() {
+                        document.getElementById('mainProductImage').src = this.dataset.src;
+                        container.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+                document.getElementById('backFromDetail').addEventListener('click', () => showPage('home'));
+                container.querySelector('.add-to-cart').addEventListener('click', () => addToCart(product.id));
+                showPage('product-detail');
+            }
+
+            function showPage(pageId) {
+                Object.values(pageSections).forEach(sec => sec.classList.remove('active'));
+                if (pageSections[pageId]) pageSections[pageId].classList.add('active');
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.toggle('active-page', link.dataset.page === pageId);
+                });
+                if (pageId === 'cart') renderCartPage();
+                window.scrollTo({ top: 200, behavior: 'smooth' });
+            }
+
+            // Навигация
+            document.querySelectorAll('[data-page]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage(el.dataset.page);
+                });
+            });
+
+            // Табы на главной
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.dataset.tab;
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Мобильное меню
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('active');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) document.getElementById('navLinks').classList.remove('active');
+                });
+            });
+
+            // Форма
+            document.getElementById('contactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('📩 Спасибо! Мы свяжемся с вами.');
+                e.target.reset();
+            });
+
+            // Заполнение контейнеров товарами
+            renderProductCards(document.getElementById('homeBikesContainer'), bikes);
+            renderProductCards(document.getElementById('homeAccessoriesContainer'), accessories);
+            renderProductCards(document.getElementById('homePartsContainer'), parts);
+            renderProductCards(document.getElementById('bikesContainer'), bikes);
+            renderProductCards(document.getElementById('accessoriesContainer'), accessories);
+            renderProductCards(document.getElementById('partsContainer'), parts);
+
+            updateCartUI();
+            showPage('home');
+        })();
+    </script>
+</body>
+</html>
